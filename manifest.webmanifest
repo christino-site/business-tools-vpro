@@ -1,0 +1,33 @@
+{
+  "name": "Business Tools Pro",
+  "short_name": "BT Pro",
+  "description": "Factures et devis professionnels, calculateur de bénéfice et outils pour entrepreneurs. Fonctionne aussi hors ligne.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f6f2",
+  "theme_color": "#0b2a4a",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Facture & devis",
+      "short_name": "Facture",
+      "url": "./#invoice",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Calculateur de bénéfice",
+      "short_name": "Bénéfice",
+      "url": "./#calc",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
