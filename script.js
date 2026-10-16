@@ -1024,7 +1024,71 @@ function initPromoBar() {
     clearTimeout(promoResizeTimer);
     promoResizeTimer = setTimeout(layoutPromoBar, 150);
   });
+
+/* ===== Mode démo et licence ===== */
+let demoMode = !isLicenseValid() || !hasProFeature('invoice_pro');
+
+function showActivationScreen() {
+  if (isLicenseValid()) return;
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'activationOverlay';
+  overlay.className = 'activation-overlay';
+  overlay.innerHTML = `
+    <div class="activation-dialog">
+      <h2>Activer Business Tools Pro</h2>
+      <p>Entrez votre clé de licence pour déverrouiller les fonctionnalités Pro.</p>
+      <input type="text" id="licenseKeyInput" placeholder="Clé de licence" class="license-input">
+      <div class="activation-buttons">
+        <button id="activateBtn" class="btn btn-primary">Activer</button>
+        <button id="demoBtn" class="btn btn-ghost">Continuer en démo</button>
+      </div>
+      <p class="demo-note">En mode démo, la facture comporte un filigrane.</p>
+    </div>
+  `;
+  
+  document.body.appendChild(overlay);
+  
+  document.getElementById('activateBtn').addEventListener('click', async () => {
+    const key = document.getElementById('licenseKeyInput').value.trim();
+    if (!key) {
+      alert('Veuillez entrer une clé de licence');
+      return;
+    }
+    
+    const success = await validateLicense(key);
+    if (success) {
+      demoMode = false;
+      document.getElementById('activationOverlay').remove();
+      location.reload();
+    } else {
+      alert('Clé de licence invalide');
+    }
+  });
+  
+  document.getElementById('demoBtn').addEventListener('click', () => {
+    demoMode = true;
+    document.getElementById('activationOverlay').remove();
+  });
 }
+
+function applyDemoMode() {
+  if (!demoMode) return;
+  
+  const invoiceCard = document.querySelector('[data-tool="invoice"]');
+  if (!invoiceCard) return;
+  
+  // Ajouter le filigrane
+  invoiceCard.classList.add('demo-watermark');
+}
+
+// Initialiser
+document.addEventListener('DOMContentLoaded', () => {
+  if (!isLicenseValid()) {
+    showActivationScreen();
+  }
+  applyDemoMode();
+});}
 
 /* ---------- 6. Démarrage ---------- */
 buildCategoryButtons();
